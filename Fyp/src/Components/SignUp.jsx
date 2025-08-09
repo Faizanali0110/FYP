@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { FaGoogle, FaUser, FaEnvelope, FaLock, FaArrowRight } from 'react-icons/fa';
 import { supabase } from '../config/supabase';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Header from './Header';
 
 export function SignUp() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,6 +15,7 @@ export function SignUp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [isAnimated, setIsAnimated] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -104,7 +107,7 @@ export function SignUp() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center ">
         <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -125,11 +128,14 @@ export function SignUp() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
+    <>
+
+    <Header/>
+    <div className="min-h-screen bg-[#0F172A] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className={`bg-[#1E293B] p-8 rounded-xl shadow-2xl max-w-md w-full ${isAnimated ? 'animate-spin' : ''}`}>
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Create an account</h1>
-          <p className="text-gray-600">Join us today and get started</p>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-[#22D3EE] to-[#6366F1] text-transparent bg-clip-text mb-2">Create an account</h1>
+          <p className="text-gray-400">Join us today and get started</p>
         </div>
 
         <form onSubmit={handleSignUp} className="space-y-5">
@@ -149,7 +155,7 @@ export function SignUp() {
               placeholder="Full Name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 bg-[#0F172A] border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#6366F1] focus:border-transparent text-white placeholder-gray-400"
               required
             />
           </div>
@@ -164,7 +170,7 @@ export function SignUp() {
               placeholder="Email Address"
               value={formData.email}
               onChange={handleChange}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 bg-[#0F172A] border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#6366F1] focus:border-transparent text-white placeholder-gray-400"
               required
             />
           </div>
@@ -179,7 +185,7 @@ export function SignUp() {
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 bg-[#0F172A] border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#6366F1] focus:border-transparent text-white placeholder-gray-400"
               required
             />
           </div>
@@ -194,7 +200,7 @@ export function SignUp() {
               placeholder="Confirm Password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 bg-[#0F172A] border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#6366F1] focus:border-transparent text-white placeholder-gray-400"
               required
             />
           </div>
@@ -202,7 +208,7 @@ export function SignUp() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center"
+            className="w-full bg-[#6366F1] hover:bg-[#4F46E5] text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center"
           >
             {loading ? (
               <>
@@ -228,7 +234,7 @@ export function SignUp() {
             onClick={handleGoogleSignUp}
             disabled={loading}
             type="button"
-            className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-lg py-3 px-4 text-gray-700 font-medium hover:bg-gray-50 transition duration-200"
+            className="w-full flex items-center justify-center gap-3 bg-[#0F172A] border border-gray-700 rounded-lg py-3 px-4 text-white font-medium hover:bg-[#1E293B] transition duration-200"
           >
             <FaGoogle className="h-5 w-5 text-blue-500" />
             Sign up with Google
@@ -236,12 +242,17 @@ export function SignUp() {
           
           <p className="text-center text-sm text-gray-600 mt-6">
             Already have an account?{' '}
-            <Link to="/login" className="text-blue-600 hover:text-blue-800 font-medium">
+            <Link to="/login" className="text-blue-600 hover:text-blue-800 font-medium" onClick={(e) => {
+              e.preventDefault();
+              setIsAnimated(true);
+              setTimeout(() => navigate('/login'), 600);
+            }}>
               Log in
             </Link>
           </p>
         </form>
       </div>
     </div>
+    </>
   );
 }
