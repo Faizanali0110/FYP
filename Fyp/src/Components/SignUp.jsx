@@ -76,14 +76,27 @@ export function SignUp() {
     e.preventDefault();
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signInWithOAuth({
+      setError('');
+      
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+          redirectTo: `${window.location.origin}/login`,
+          skipBrowserRedirect: false,
         }
       });
+
       if (error) throw error;
+      
+      // Google OAuth will handle the redirect automatically
+      // No need to set success state here as the page will redirect
+      
     } catch (error) {
+      console.error('Google Sign up error:', error);
       setError(error.message || 'Error signing up with Google');
       setLoading(false);
     }
@@ -217,7 +230,7 @@ export function SignUp() {
             type="button"
             className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-lg py-3 px-4 text-gray-700 font-medium hover:bg-gray-50 transition duration-200"
           >
-            <FaGoogle className="h-5 w-5 text-red-500" />
+            <FaGoogle className="h-5 w-5 text-blue-500" />
             Sign up with Google
           </button>
           
