@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { FaFolder, FaFolderOpen, FaFile, FaChevronRight, FaChevronDown, FaUpload, FaFolderPlus } from 'react-icons/fa';
 
-export function FileExplorer({ onFileSelect }) {
+export function FileExplorer({ onFileSelect, selectedFile }) {
   const [expandedFolders, setExpandedFolders] = useState(new Set());
   const [fileStructure, setFileStructure] = useState({
     name: 'project',
@@ -116,15 +116,15 @@ export function FileExplorer({ onFileSelect }) {
         <div key={currentPath}>
           <button
             onClick={() => toggleFolder(currentPath)}
-            className="w-full flex items-center px-2 py-1 hover:bg-[#0F172A] rounded text-gray-300 hover:text-white"
+            className="w-full flex items-center px-2 py-1 hover:bg-muted rounded text-app"
           >
             <span className="w-4 h-4 mr-1">
               {isExpanded ? <FaChevronDown size={12} /> : <FaChevronRight size={12} />}
             </span>
             {isExpanded ? (
-              <FaFolderOpen className="w-4 h-4 mr-2 text-[#22D3EE]" />
+              <FaFolderOpen className="w-4 h-4 mr-2 text-secondary" />
             ) : (
-              <FaFolder className="w-4 h-4 mr-2 text-[#22D3EE]" />
+              <FaFolder className="w-4 h-4 mr-2 text-secondary" />
             )}
             <span className="text-sm">{item.name}</span>
           </button>
@@ -137,15 +137,22 @@ export function FileExplorer({ onFileSelect }) {
       );
     }
 
+    const isActive = selectedFile && (
+      (selectedFile.path && selectedFile.path === currentPath) ||
+      (!selectedFile.path && selectedFile.name === item.name)
+    );
+
     return (
       <button
         key={currentPath}
-        onClick={() => onFileSelect(currentPath)}
-        className="w-full flex items-center px-2 py-1 hover:bg-[#0F172A] rounded text-gray-300 hover:text-white"
+        onClick={() => onFileSelect({ ...item, path: currentPath })}
+        className={`w-full flex items-center px-2 py-1 rounded text-app transition-colors ${
+          isActive ? 'bg-[rgb(var(--secondary))/0.12] border border-[rgb(var(--secondary))/0.4]' : 'hover:bg-muted'
+        }`}
       >
         <span className="w-4 h-4 mr-1" />
-        <FaFile className="w-4 h-4 mr-2 text-gray-400" />
-        <span className="text-sm">{item.name}</span>
+        <FaFile className={`w-4 h-4 mr-2 ${isActive ? 'text-secondary' : 'text-muted-foreground'}`} />
+        <span className={`text-sm ${isActive ? 'text-app' : ''}`}>{item.name}</span>
       </button>
     );
   };
@@ -153,7 +160,7 @@ export function FileExplorer({ onFileSelect }) {
   return (
     <div className="flex flex-col h-full">
       {/* Upload Area */}
-      <div className="p-4 border-b border-gray-700 space-y-2">
+      <div className="p-4 border-b border-app space-y-2">
         {/* Hidden File Inputs */}
         <input
           type="file"
@@ -175,14 +182,14 @@ export function FileExplorer({ onFileSelect }) {
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center justify-center px-4 py-2 bg-[#6366F1] hover:bg-[#4F46E5] text-white rounded-lg transition-colors"
+            className="flex items-center justify-center px-4 py-2 bg-primary hover:opacity-90 text-primary-foreground rounded-lg transition-colors"
           >
             <FaUpload className="w-4 h-4 mr-2" />
             Upload Files
           </button>
           <button
             onClick={() => folderInputRef.current?.click()}
-            className="flex items-center justify-center px-4 py-2 bg-[#6366F1] hover:bg-[#4F46E5] text-white rounded-lg transition-colors"
+            className="flex items-center justify-center px-4 py-2 bg-primary hover:opacity-90 text-primary-foreground rounded-lg transition-colors"
           >
             <FaFolderPlus className="w-4 h-4 mr-2" />
             Upload Folder
@@ -196,11 +203,11 @@ export function FileExplorer({ onFileSelect }) {
           onDrop={handleDrop}
           className={`mt-2 border-2 border-dashed rounded-lg p-4 text-center transition-colors ${
             isDragging
-              ? 'border-[#22D3EE] bg-[#22D3EE]/10'
-              : 'border-gray-700 hover:border-gray-600'
+              ? 'border-secondary bg-[rgb(var(--secondary))/0.1]'
+              : 'border-app hover:border-secondary'
           }`}
         >
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-muted-foreground">
             Drag and drop files or folders here
           </p>
         </div>
@@ -211,7 +218,7 @@ export function FileExplorer({ onFileSelect }) {
         {fileStructure.children?.length > 0 ? (
           renderItem(fileStructure)
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-gray-400 space-y-2">
+          <div className="flex flex-col items-center justify-center h-full text-muted-foreground space-y-2">
             <FaFolder className="w-12 h-12 opacity-50" />
             <p className="text-sm">No files uploaded yet</p>
           </div>

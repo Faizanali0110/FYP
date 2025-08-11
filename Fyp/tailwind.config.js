@@ -1,21 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class', // force class mode
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/flowbite/**/*.js",
+    "./node_modules/flowbite-react/**/*.js"
   ],
-theme: {
-  extend: {
-    animation: {
-      wiggle: 'wiggle 1s ease-in-out infinite',
-    },
-    keyframes: {
-      wiggle: {
-        '0%, 100%': { transform: 'rotate(-3deg)' },
-        '50%': { transform: 'rotate(3deg)' },
-      },
-    },
+  theme: {
+    extend: {},
   },
-},
-  plugins: [],
-}
+  plugins: [
+    // Flowbite plugin if you use Flowbite components
+    require('flowbite/plugin')
+  ],
+};

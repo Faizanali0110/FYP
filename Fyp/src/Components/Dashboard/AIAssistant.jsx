@@ -25,9 +25,9 @@ export function AIAssistant() {
   return (
     <div className="h-full flex flex-col">
       {/* Chat Header */}
-      <div className="p-4 border-b border-gray-700">
-        <h3 className="text-lg font-semibold flex items-center">
-          <FaRobot className="w-5 h-5 mr-2 text-[#22D3EE]" />
+      <div className="p-4 border-b border-app">
+        <h3 className="text-lg font-semibold flex items-center text-app">
+          <FaRobot className="w-5 h-5 mr-2 text-secondary" />
           AI Assistant
         </h3>
       </div>
@@ -43,20 +43,20 @@ export function AIAssistant() {
           >
             {/* Avatar */}
             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-              message.type === 'assistant' ? 'bg-[#22D3EE]' : 'bg-[#6366F1]'
+              message.type === 'assistant' ? 'bg-secondary' : 'bg-primary'
             }`}>
               {message.type === 'assistant' ? (
-                <FaRobot className="w-4 h-4 text-[#0F172A]" />
+                <FaRobot className="w-4 h-4 text-white" />
               ) : (
-                <FaUser className="w-4 h-4 text-[#0F172A]" />
+                <FaUser className="w-4 h-4 text-white" />
               )}
             </div>
 
             {/* Message */}
             <div className={`max-w-[80%] rounded-lg px-4 py-2 ${
               message.type === 'assistant' 
-                ? 'bg-[#0F172A] text-white' 
-                : 'bg-[#6366F1] text-white'
+                ? 'bg-muted text-app' 
+                : 'bg-primary text-primary-foreground'
             }`}>
               {message.content}
             </div>
@@ -65,18 +65,18 @@ export function AIAssistant() {
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="p-4 border-t border-gray-700">
+      <form onSubmit={handleSubmit} className="p-4 border-t border-app">
         <div className="flex space-x-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask a question..."
-            className="flex-1 bg-[#0F172A] text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#22D3EE]"
+            className="flex-1 bg-input text-app rounded-lg px-4 py-2 border border-app focus:outline-none focus:ring-2 ring-app"
           />
           <button
             type="submit"
-            className="bg-[#6366F1] hover:bg-[#4F46E5] text-white rounded-lg p-2 transition-colors"
+            className="bg-primary hover:opacity-90 text-primary-foreground rounded-lg p-2 transition-colors"
           >
             <FaPaperPlane className="w-5 h-5" />
           </button>
