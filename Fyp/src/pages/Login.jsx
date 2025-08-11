@@ -73,7 +73,7 @@ export function Login() {
                     <div className="relative z-10 flex flex-col justify-between w-full p-12">
                         <div className="flex items-center gap-3">
                             <img src={file} alt="Logo" className="w-12 h-12" />
-                            <span className="text-2xl font-semibold text-white">Spacer</span>
+                            <span className="text-2xl font-semibold text-white">Unit &Integration Copilot</span>
                         </div>
                         <div className="mx-auto text-center max-w-md">
                             <h2 className="text-white text-3xl font-bold mb-2">Welcome to</h2>
