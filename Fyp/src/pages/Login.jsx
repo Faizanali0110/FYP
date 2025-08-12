@@ -87,7 +87,8 @@ export function Login() {
                     {/* Soft decorative blobs */}
                     <div className="pointer-events-none absolute right-0 top-0 h-full w-56 opacity-30">
                         <div className="absolute right-0 top-1/4 h-48 w-48 rounded-full bg-white/30 blur-2xl" />
-                        <div className="absolute right-10 top-1/2 h-24 w-24 rounded-full bg-white/20 blur-xl" />
+                        <div className="absolute right-10 top-1/2 h-24 w-24 rounded-full bg-white/20 blur-xl" /> 
+                        {/*decorate the class of the right form pannel */}
                     </div>
                 </div>
 
@@ -173,6 +174,7 @@ export function Login() {
                                 <FaGoogle className="h-5 w-5 text-secondary" />
                                 Sign in with Google
                             </button>
+                            
 
                             <p className="text-center text-sm text-muted-foreground mt-6">
                                 Don't have an account?{' '}
