@@ -1,0 +1,105 @@
+@import "tailwindcss";
+@import "flowbite"; /* only if using flowbite styles */
+
+/* Theme color variables (light by default) */
+:root {
+  color-scheme: light;
+  /* Tokens as RGB triplets for easy alpha control */
+  --background: 255 255 255;      /* white */
+  --foreground: 17 24 39;         /* gray-900 */
+
+  --muted: 243 244 246;           /* gray-100 */
+  --muted-foreground: 107 114 128;/* gray-500 */
+
+  --card: 255 255 255;            /* white */
+  --card-foreground: 17 24 39;    /* gray-900 */
+
+  --border: 229 231 235;          /* gray-200 */
+  --input: 243 244 246;           /* gray-100 */
+
+  --primary: 99 102 241;          /* indigo-500 */
+  --primary-foreground: 255 255 255; /* white */
+
+  --secondary: 34 211 238;        /* cyan-400 */
+  --secondary-foreground: 15 23 42;  /* slate-900 */
+
+  --accent: 14 165 233;           /* sky-500 */
+  --accent-foreground: 255 255 255;  /* white */
+
+  --ring: 34 211 238;             /* cyan-400 */
+  --radius: 0.5rem;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: 15 23 42;         /* slate-900 */
+  --foreground: 241 245 249;      /* slate-100 */
+
+  --muted: 30 41 59;              /* slate-800 */
+  --muted-foreground: 148 163 184;/* slate-400 */
+
+  --card: 15 23 42;               /* slate-900 */
+  --card-foreground: 241 245 249; /* slate-100 */
+
+  --border: 51 65 85;             /* slate-700 */
+  --input: 30 41 59;              /* slate-800 */
+
+  --primary: 129 140 248;         /* indigo-400 */
+  --primary-foreground: 255 255 255; /* white */
+
+  --secondary: 34 211 238;        /* cyan-400 */
+  --secondary-foreground: 15 23 42;  /* slate-900 */
+
+  --accent: 2 132 199;            /* sky-600 */
+  --accent-foreground: 255 255 255;  /* white */
+
+  --ring: 34 211 238;             /* cyan-400 */
+}
+
+/* Base surfaces */
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
+}
+
+/* Utilities mapping tokens to CSS for easy adoption */
+.bg-app { background-color: rgb(var(--background)); }
+.text-app { color: rgb(var(--foreground)); }
+.bg-card { background-color: rgb(var(--card)); }
+.text-card-foreground { color: rgb(var(--card-foreground)); }
+.border-app { border-color: rgb(var(--border)); }
+.bg-muted { background-color: rgb(var(--muted)); }
+.text-muted-foreground { color: rgb(var(--muted-foreground)); }
+.bg-primary { background-color: rgb(var(--primary)); }
+.text-primary-foreground { color: rgb(var(--primary-foreground)); }
+.bg-secondary { background-color: rgb(var(--secondary)); }
+.text-secondary-foreground { color: rgb(var(--secondary-foreground)); }
+.text-secondary { color: rgb(var(--secondary)); }
+.text-primary { color: rgb(var(--primary)); }
+.bg-input { background-color: rgb(var(--input)); }
+.border-secondary { border-color: rgb(var(--secondary)); }
+
+/* Tailwind ring integration helper */
+:root { --app-ring: rgb(var(--ring)); }
+.dark { --app-ring: rgb(var(--ring)); }
+.ring-app { --tw-ring-color: var(--app-ring); }
+
+/* Radius helper */
+.radius { border-radius: var(--radius); }
+
+/* globals.css */
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
