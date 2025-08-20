@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaUserCircle, FaCog, FaSignOutAlt } from 'react-icons/fa';
- 
-
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUserCircle, FaCog, FaSignOutAlt } from "react-icons/fa";
+import logo from "../../assets/file.svg";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export function DashboardHeader() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
     <header className="bg-card border-b border-app">
       <div className="h-16 px-4 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2">
+        <Link to="/" className="flex items-center space-x-3">
+          <img src={logo} alt="Logo" className="h-8 w-auto" />
           <span className="text-2xl font-bold bg-gradient-to-r from-[rgb(var(--secondary))] to-[rgb(var(--primary))] text-transparent bg-clip-text">
             AI-IDE
           </span>
@@ -28,17 +29,10 @@ export function DashboardHeader() {
             <NavLink href="/dashboard" active>
               Home
             </NavLink>
-            <NavLink href="/dashboard/faculty">
-              Faculty Prediction
-            </NavLink>
-            <NavLink href="/dashboard/tests">
-              Test Generation
-            </NavLink>
-            <NavLink href="/dashboard/analysis">
-              Code Analysis
-            </NavLink>
+            <NavLink href="/dashboard/faculty">Faculty Prediction</NavLink>
+            <NavLink href="/dashboard/tests">Test Generation</NavLink>
+            <NavLink href="/dashboard/analysis">Code Analysis</NavLink>
           </nav>
-          
         </div>
 
         {/* Profile Menu */}
@@ -47,7 +41,21 @@ export function DashboardHeader() {
             onClick={() => setIsProfileOpen(!isProfileOpen)}
             className="flex items-center space-x-2 text-app hover:opacity-80 focus:outline-none"
           >
-            <FaUserCircle className="w-8 h-8" />
+            {localStorage.getItem("profilePic") ? (
+              <img
+                src={localStorage.getItem("profilePic")}
+                alt="Profile"
+                className="w-8 h-8 rounded-full object-cover"
+                onError={(e) => {
+                  e.target.style.display = "none";
+                  if (e.target.nextElementSibling) {
+                    e.target.nextElementSibling.style.display = "block";
+                  }
+                }}
+              />
+            ) : (
+              <FaUserCircle className="w-8 h-8" />
+            )}
           </button>
 
           {/* Dropdown Menu */}
@@ -62,7 +70,6 @@ export function DashboardHeader() {
               </a>
               <button
                 onClick={handleLogout}
-                
                 className="w-full flex items-center px-4 py-2 text-sm text-app hover:bg-muted"
               >
                 <FaSignOutAlt className="w-4 h-4 mr-2" />
@@ -82,8 +89,8 @@ function NavLink({ href, active, children }) {
       href={href}
       className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
         active
-          ? 'text-secondary'
-          : 'text-muted-foreground hover:text-app hover:bg-muted'
+          ? "text-secondary"
+          : "text-muted-foreground hover:text-app hover:bg-muted"
       }`}
     >
       {children}

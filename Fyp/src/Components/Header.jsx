@@ -2,20 +2,19 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useTheme } from "../contexts/ThemeContext";
-import file from "../assets/file.svg";
-
+import logo from "../assets/file.svg";
 export default function Header() {
   const { darkMode, toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="bg-card border-b border-app sticky top-0 z-40">
+    <header className="bg-card border-b border-app sticky top-0 z-40 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="h-16 flex items-center justify-between">
           {/* Brand */}
           <div className="flex items-center gap-3">
             <Link to="/" className="flex items-center gap-2">
-              <img src={file} alt="AI-IDE logo" className="w-10 h-10" />
+              <img src={logo} alt="AI-IDE logo" className="w-30 h-30" />
               <span className="text-xl font-bold bg-gradient-to-r from-[rgb(var(--secondary))] to-[rgb(var(--primary))] text-transparent bg-clip-text">
                 AI-IDE
               </span>
@@ -24,10 +23,30 @@ export default function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#home" className="text-sm text-muted-foreground hover:text-app transition-colors">Home</a>
-            <a href="#features" className="text-sm text-muted-foreground hover:text-app transition-colors">Features</a>
-            <a href="#about" className="text-sm text-muted-foreground hover:text-app transition-colors">About</a>
-            <a href="#contact" className="text-sm text-muted-foreground hover:text-app transition-colors">Contact</a>
+            <Link
+              to="/"
+              className="text-sm text-muted-foreground hover:text-app transition-colors"
+            >
+              Home
+            </Link>
+            <Link
+              to="/features"
+              className="text-sm text-muted-foreground hover:text-app transition-colors"
+            >
+              Features
+            </Link>
+            <Link
+              to="/about"
+              className="text-sm text-muted-foreground hover:text-app transition-colors"
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              className="text-sm text-muted-foreground hover:text-app transition-colors"
+            >
+              Contact
+            </Link>
           </nav>
 
           {/* Actions */}
@@ -77,9 +96,19 @@ export default function Header() {
                 stroke="currentColor"
               >
                 {mobileOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 )}
               </svg>
             </button>
@@ -91,12 +120,37 @@ export default function Header() {
       {mobileOpen && (
         <div className="md:hidden border-t border-app bg-card">
           <nav className="px-4 py-3 space-y-1">
-            <a href="#home" className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-app hover:bg-muted">Home</a>
-            <a href="#features" className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-app hover:bg-muted">Features</a>
-            <a href="#about" className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-app hover:bg-muted">About</a>
-            <a href="#contact" className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-app hover:bg-muted">Contact</a>
+            <Link
+              to="/"
+              className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-app hover:bg-muted"
+            >
+              Home
+            </Link>
+            <Link
+              to="/features"
+              className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-app hover:bg-muted"
+            >
+              Features
+            </Link>
+            <Link
+              to="/about"
+              className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-app hover:bg-muted"
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-app hover:bg-muted"
+            >
+              Contact
+            </Link>
             <div className="pt-2">
-              <Link to="/login" className="block text-center rounded-lg px-3 py-2 bg-primary text-primary-foreground hover:opacity-90">Login</Link>
+              <Link
+                to="/login"
+                className="block text-center rounded-lg px-3 py-2 bg-primary text-primary-foreground hover:opacity-90"
+              >
+                Login
+              </Link>
             </div>
           </nav>
         </div>

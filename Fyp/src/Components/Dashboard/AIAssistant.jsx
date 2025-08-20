@@ -1,25 +1,57 @@
-import React, { useState } from 'react';
-import { FaPaperPlane, FaRobot, FaUser } from 'react-icons/fa';
+import React, { useState } from "react";
+import { FaPaperPlane, FaRobot, FaUser } from "react-icons/fa";
 
 export function AIAssistant() {
   const [messages, setMessages] = useState([
     {
-      type: 'assistant',
-      content: 'Hello! I can help you with code analysis, test generation, and faculty prediction. What would you like to do?'
-    }
+      type: "assistant",
+      content:
+        "Hello! I can help you with code analysis, test generation, and faculty prediction. What would you like to do?",
+    },
   ]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || loading) return;
 
-    // Add user message
-    setMessages(prev => [...prev, { type: 'user', content: input }]);
-    
-    // TODO: Add AI response logic here
-    
-    setInput('');
+    const userMessage = { type: "user", content: input };
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/ask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question: input }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || 'Failed to get response from the AI');
+      }
+
+      setMessages((prev) => [
+        ...prev,
+        { type: "assistant", content: data.answer }
+      ]);
+    } catch (err) {
+      console.error('Error:', err);
+      setMessages((prev) => [
+        ...prev,
+        { 
+          type: "assistant", 
+          content: `⚠️ Error: ${err.message || 'An error occurred while processing your request'}` 
+        }
+      ]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -38,14 +70,18 @@ export function AIAssistant() {
           <div
             key={index}
             className={`flex items-start space-x-2 ${
-              message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''
+              message.type === "user"
+                ? "flex-row-reverse space-x-reverse"
+                : ""
             }`}
           >
             {/* Avatar */}
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-              message.type === 'assistant' ? 'bg-secondary' : 'bg-primary'
-            }`}>
-              {message.type === 'assistant' ? (
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                message.type === "assistant" ? "bg-secondary" : "bg-primary"
+              }`}
+            >
+              {message.type === "assistant" ? (
                 <FaRobot className="w-4 h-4 text-white" />
               ) : (
                 <FaUser className="w-4 h-4 text-white" />
@@ -53,34 +89,51 @@ export function AIAssistant() {
             </div>
 
             {/* Message */}
-            <div className={`max-w-[80%] rounded-lg px-4 py-2 ${
-              message.type === 'assistant' 
-                ? 'bg-muted text-app' 
-                : 'bg-primary text-primary-foreground'
-            }`}>
+            <div
+              className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                message.type === "assistant"
+                  ? "bg-muted text-app"
+                  : "bg-primary text-primary-foreground"
+              }`}
+            >
               {message.content}
             </div>
           </div>
         ))}
+
+        {loading && (
+          <div className="flex items-start space-x-2">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-secondary">
+              <FaRobot className="w-4 h-4 text-white" />
+            </div>
+            <div className="bg-muted text-app rounded-lg px-4 py-2">
+              Typing...
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="p-4 border-t border-app">
-        <div className="flex space-x-2">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask a question..."
-            className="flex-1 bg-input text-app rounded-lg px-4 py-2 border border-app focus:outline-none focus:ring-2 ring-app"
-          />
-          <button
-            type="submit"
-            className="bg-primary hover:opacity-90 text-primary-foreground rounded-lg p-2 transition-colors"
-          >
+      <form onSubmit={handleSubmit} className="flex items-center justify-between p-4 border-t border-app">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type your message..."
+          className="flex-1 p-2 rounded-l-lg border border-r-0 border-app bg-muted text-app focus:outline-none focus:ring-2 focus:ring-primary"
+          disabled={loading}
+        />
+        <button
+          type="submit"
+          disabled={!input.trim() || loading}
+          className="bg-primary text-primary-foreground p-2 rounded-r-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+        >
+          {loading ? (
+            <div className="w-5 h-5 border-2 border-t-transparent border-white rounded-full animate-spin"></div>
+          ) : (
             <FaPaperPlane className="w-5 h-5" />
-          </button>
-        </div>
+          )}
+        </button>
       </form>
     </div>
   );
